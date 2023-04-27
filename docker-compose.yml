@@ -1,0 +1,115 @@
+version: "3.8"
+services:
+  db:
+    networks:
+      - local-network
+    platform: linux/x86_64
+    container_name: db
+    image: mysql:5.7
+    tty: true
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  phpmyadmin:
+    networks:
+        - local-network
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+        - 8080:80
+    environment:
+      # we specify that we connect to an arbitrary server with the flag below
+      # "arbitrary" means you're able to specify which database server to use on login page of phpmyadmin
+      - PMA_ARBITRARY=1
+    depends_on:
+      - db
+
+  web:
+    networks:
+      - local-network
+    build: .
+    container_name: web
+    environment:
+      MYSQL_DB_HOST: 'db'
+      MYSQL_DATABASE: 'test'
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    restart: on-failure
+
+  # INTEGRATION TESTS
+  dbtest:
+    networks:
+      - local-network
+    platform: linux/x86_64
+    container_name: dbtest
+    image: mysql:5.7
+    tty: true
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'dbtest'
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - '3307:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./db/init-integration-test.sql:/docker-entrypoint-initdb.d/init.sql
+
+  integration_tests:
+    networks:
+      - local-network
+    build: .
+    container_name: integration_tests
+    command: bash -c "npm run test:integration"
+    environment:
+      MYSQL_DB_HOST: 'dbtest'
+      MYSQL_DATABASE: 'dbtest'
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3001:3000"
+    depends_on:
+      - dbtest
+    restart: on-failure
+
+  phpmyadmintest:
+    networks:
+        - local-network
+    image: phpmyadmin:latest
+    container_name: phpmyadmintest
+    restart: unless-stopped
+    ports:
+        - 8081:80
+    environment:
+      # we specify that we connect to an arbitrary server with the flag below
+      # "arbitrary" means you're able to specify which database server to use on login page of phpmyadmin
+      - PMA_ARBITRARY=1
+    depends_on:
+      - dbtest
+
+networks:
+  local-network:
+    driver: bridge
