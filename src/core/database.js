@@ -27,6 +27,7 @@ const getConnection = async () => {
   } catch (error) {
     logger.info('Database Error!');
     logger.info({ error });
+    return null;
   }
 };
 

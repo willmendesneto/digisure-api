@@ -9,7 +9,6 @@ const findAllUsers = async (req, res) => {
       users.map(user => ({
         name: user.name,
         email: user.email,
-        password: user.password,
       })),
     );
   } catch (error) {

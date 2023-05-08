@@ -2,7 +2,7 @@
   "plugins": ["prettier"],
   "extends": ["airbnb", "prettier"],
   "env": {
-    "node": true,
+    "node": true
   },
   "rules": {
     "prettier/prettier": [
@@ -10,8 +10,8 @@
       {
         "singleQuote": true,
         "trailingComma": "all",
-        "arrowParens": "always",
-      },
+        "arrowParens": "avoid"
+      }
     ],
     "no-negated-condition": "error",
     "id-length": [
@@ -19,15 +19,15 @@
       {
         "min": 3,
         "properties": "never",
-        "exceptions": ["_"],
-      },
+        "exceptions": ["_"]
+      }
     ],
     "padded-blocks": "off",
     "no-underscore-dangle": [
       "error",
       {
-        "allowAfterThis": true,
-      },
+        "allowAfterThis": true
+      }
     ],
     "no-unused-vars": [
       "error",
@@ -35,9 +35,9 @@
         "vars": "all",
         "args": "after-used",
         "argsIgnorePattern": "^_",
-        "ignoreRestSiblings": true,
-      },
+        "ignoreRestSiblings": true
+      }
     ],
-    "curly": ["error", "all"],
+    "curly": ["error", "all"]
   }
 }

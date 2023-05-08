@@ -10,12 +10,19 @@ chai.use(chaiHttp);
 chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
-require('dotenv-safe').config({ allowEmptyValues: true });
+process.env.MYSQL_DB_HOST = 'db';
+process.env.IS_PRODUCTION = 'development';
+process.env.MYSQL_USER = 'user';
+process.env.MYSQL_PASSWORD = 'password';
+process.env.MYSQL_DATABASE = 'db';
+process.env.LOG_LEVEL = 'warn';
+process.env.PORT = 3001;
+
+require('dotenv-safe').config({ allowEmptyValues: true, example: '.env.example' });
 
 global.assert = chai.assert;
 global.sinon = sinon;
 global.expect = chai.expect;
-process.env.PORT = 3001;
 // This means Node can only make outbound calls to localhost - chai-http calls only!
 console.log('Restrict Nock for local requests...');
 nock.enableNetConnect('127.0.0.1');

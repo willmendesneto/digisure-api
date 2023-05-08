@@ -1,7 +1,6 @@
 const conf = require('config');
 const { Router } = require('express');
 const { createUser, findAllUsers } = require('./controllers/user');
-const { getQuery } = require('./core/database');
 
 const router = new Router({
   strict: true,
