@@ -4,11 +4,11 @@ const app = require('../../src/app');
 
 describe('Integration: User endpoint', () => {
   let server;
-
+  const now = ${Date.now()}
   const request = {
-    email: 'anothertest@inexistentdomain.com',
-    name: 'Some User',
-    password: 'my amazing password',
+    email: `anothertest${now}@inexistentdomain.com`,
+    name: `Some User - ${now}`,
+    password: 'pass',
   };
 
   before(() => {

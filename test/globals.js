@@ -15,7 +15,7 @@ process.env.IS_PRODUCTION = 'development';
 process.env.MYSQL_USER = 'user';
 process.env.MYSQL_PASSWORD = 'password';
 process.env.MYSQL_DATABASE = 'db';
-process.env.LOG_LEVEL = 'warn';
+process.env.LOG_LEVEL = 'error';
 process.env.PORT = 3001;
 
 require('dotenv-safe').config({ allowEmptyValues: true, example: '.env.example' });

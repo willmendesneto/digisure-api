@@ -76,7 +76,7 @@ By definition, the API has some integration tests checking directly the Database
 To get this test running you should have Docker and Docker compose installed locally and, after that, run the command below
 
 ```bash
-$ docker-compose run integration_tests -f=docker-compose-test.yml # run the integration tests
+$ docker-compose run integration_tests # run the integration tests
 ```
 
 ### Run the tests in watch mode
